@@ -23,17 +23,32 @@ function uploadFile() {
             // Display the uploaded image
             resultDiv.innerHTML = `<img src="${img.src}" alt="Uploaded Image"/>`;
 
-            // Prepare the SVG with the image
-            const svgData = createSVGWithImage(img.src, img.width, img.height);
-            
-            // Create a Blob and set the download link
-            const svgBlob = new Blob([svgData], {type: 'image/svg+xml'});
-            const svgUrl = URL.createObjectURL(svgBlob);
+            // Convert to vector using Potrace
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
 
-            // Ensure the download link is properly set
-            downloadSVGButton.href = svgUrl;
-            downloadSVGButton.download = 'image.svg';
-            downloadSVGButton.style.display = 'inline';
+            canvas.toBlob(async (blob) => {
+                const arrayBuffer = await blob.arrayBuffer();
+                const uint8Array = new Uint8Array(arrayBuffer);
+
+                // Initialize Potrace
+                const potrace = new Potrace();
+                potrace.loadImage(uint8Array);
+
+                potrace.getSVG((svg) => {
+                    // Prepare the SVG for download
+                    const svgBlob = new Blob([svg], {type: 'image/svg+xml'});
+                    const svgUrl = URL.createObjectURL(svgBlob);
+
+                    // Update the download button
+                    downloadSVGButton.href = svgUrl;
+                    downloadSVGButton.download = 'vector.svg';
+                    downloadSVGButton.style.display = 'inline';
+                });
+            }, 'image/png');
         };
 
         img.onerror = function() {
@@ -50,10 +65,7 @@ function uploadFile() {
     reader.readAsDataURL(file);
 }
 
-function createSVGWithImage(imageSrc, width, height) {
-    return `
-        <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-            <image href="${imageSrc}" width="${width}" height="${height}" />
-        </svg>
-    `;
+function downloadSVG() {
+    const downloadSVGButton = document.getElementById('downloadSVG');
+    downloadSVGButton.click();
 }
