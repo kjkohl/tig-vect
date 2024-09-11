@@ -1,6 +1,7 @@
 function uploadFile() {
     const fileInput = document.getElementById('fileUpload');
     const resultDiv = document.getElementById('result');
+    const downloadLink = document.getElementById('downloadLink');
 
     if (fileInput.files.length === 0) {
         resultDiv.innerHTML = "<p>Please upload a file first.</p>";
@@ -30,7 +31,13 @@ function uploadFile() {
 
             const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
             const vectorSVG = rasterToSVG(imageData, canvas.width, canvas.height);
-            resultDiv.innerHTML += `<svg width="${canvas.width}" height="${canvas.height}" xmlns="http://www.w3.org/2000/svg">${vectorSVG}</svg>`;
+
+            // Create SVG Blob and set download link
+            const svgBlob = new Blob([vectorSVG], {type: 'image/svg+xml'});
+            const svgUrl = URL.createObjectURL(svgBlob);
+            downloadLink.href = svgUrl;
+            downloadLink.style.display = 'inline';
+            resultDiv.innerHTML += `<p><a href="${svgUrl}" download="vector-outline.svg">Download SVG</a></p>`;
         };
 
         img.onerror = function() {
@@ -50,7 +57,7 @@ function uploadFile() {
 function rasterToSVG(imageData, width, height) {
     let svgPath = '';
     const threshold = 128; // Adjust the threshold for better edge detection
-    for (let y = 0; y < height; y += 5) { // Adjust step size for more detail
+    for (let y = 0; y < height; y += 1) { // Smaller step size for more detail
         let pathData = '';
         for (let x = 0; x < width; x++) {
             const index = (y * width + x) * 4;
@@ -63,5 +70,5 @@ function rasterToSVG(imageData, width, height) {
             svgPath += `M0,${y} ${pathData}L${width},${y} Z `;
         }
     }
-    return `<path d="${svgPath}" fill="none" stroke="black"/>`;
+    return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><path d="${svgPath}" fill="none" stroke="black"/></svg>`;
 }
