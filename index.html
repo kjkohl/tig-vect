@@ -10,13 +10,15 @@
     <div class="container">
         <header>
             <h1>TigVector</h1>
-            <p>Upload your image!</p>
+            <p>Upload your image and convert it to a vector format!</p>
         </header>
         <div class="upload-section">
-            <input type="file" id="fileUpload" accept="image/*"
-            <button onclick="uploadFile()">Vectorize</button>
+            <input type="file" id="fileUpload" accept="image/*">
+            <button onclick="uploadFile()">Convert to Vector</button>
         </div>
-
-        <script src="script.js"></script>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
