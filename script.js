@@ -26,10 +26,13 @@ function uploadFile() {
             // Prepare the SVG with the image
             const svgData = createSVGWithImage(img.src, img.width, img.height);
             
-            // Create SVG Blob and set download link
+            // Create a Blob and set the download link
             const svgBlob = new Blob([svgData], {type: 'image/svg+xml'});
             const svgUrl = URL.createObjectURL(svgBlob);
+
+            // Ensure the download link is properly set
             downloadSVGButton.href = svgUrl;
+            downloadSVGButton.download = 'image.svg';
             downloadSVGButton.style.display = 'inline';
         };
 
