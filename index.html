@@ -10,11 +10,12 @@
     <div class="container">
         <header>
             <h1>TigVector</h1>
-            <p>Upload your image and convert it to a vector format!</p>
+            <p>Upload your image and convert it to a vector outline!</p>
         </header>
         <div class="upload-section">
             <input type="file" id="fileUpload" accept="image/*">
             <button onclick="uploadFile()">Convert to Vector</button>
+            <a id="downloadLink" style="display: none;" download="vector-outline.svg">Download SVG</a>
         </div>
         <div id="result" class="result"></div>
     </div>
@@ -22,3 +23,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
