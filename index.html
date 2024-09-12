@@ -7,20 +7,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>TigVector</h1>
-            <p>Upload your image and download it as a vector SVG!</p>
-        </header>
-        <div class="upload-section">
-            <input type="file" id="fileUpload" accept="image/*">
-            <button onclick="uploadFile()">Upload and Convert</button>
-            <button id="downloadSVG" style="display: none;" onclick="downloadSVG()">Download SVG</button>
-        </div>
-        <div id="result" class="result"></div>
+    <h1>Convert your image into a vector!</h1>
+
+    <form id="upload-form">
+        <input type="file" id="fileInput" accept="image/*" required>
+        <button type="submit">Convert to SVG</button>
+    </form>
+
+    <p id="status"></p>
+
+    <div id="vector-container">
+        <h2>Vectorization</h2>
+        <a id="downloadLink" download="vector.svg" style="display:none;">Download Vector</a>"
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/potrace@1.1.0/potrace.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/potrace-wasm@0.3.1/dist/potrace.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
