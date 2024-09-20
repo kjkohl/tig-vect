@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TigVector</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Toolpath Vector Converter</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Convert your image into a vector!</h1>
-
-    <form id="upload-form">
-        <input type="file" id="fileInput" accept="image/*" required>
-        <button type="submit">Convert to SVG</button>
-    </form>
-
-    <p id="status"></p>
-
-    <div id="vector-container">
-        <h2>Vectorization</h2>
-        <a id="downloadLink" download="vector.svg" style="display:none;">Download Vector</a>"
+  <div class="container">
+    <h1>Image to Toolpath Vector Converter</h1>
+    <div class="upload-box">
+      <input type="file" id="imageUpload" accept="image/*" />
+      <label for="imageUpload" class="upload-label">
+        <span>Upload Image</span>
+      </label>
     </div>
+    <div id="preview" class="preview-box"></div>
+    <button id="convertBtn" class="btn">Convert to Toolpath Vector</button>
+    <div id="result" class="result-box">
+      <a id="downloadLink" class="btn" download="vector-toolpath.svg" style="display:none;">Download Vector File</a>
+    </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/potrace-wasm@0.3.1/dist/potrace.js"></script>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
