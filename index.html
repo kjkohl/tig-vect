@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image to Toolpath Vector Converter</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Potrace.js library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/potrace@2.1.0/potrace.js"></script>
 </head>
 <body>
   <div class="container">
@@ -18,7 +20,7 @@
     <div id="preview" class="preview-box"></div>
     <button id="convertBtn" class="btn">Convert to Toolpath Vector</button>
     <div id="result" class="result-box">
-      <a id="downloadLink" class="btn" download="vector-toolpath.svg" style="display:none;">Download Vector File</a>
+      <a id="downloadLink" class="btn" download="vector-toolpath.svg" style="display:none;">Download Toolpath Vector</a>
     </div>
   </div>
 
