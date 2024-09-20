@@ -1,39 +1,36 @@
-document.getElementById('upload-form').addEventListener('submit', async function e() {
-    e.preventDefault();
+document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+document.getElementById('convertBtn').addEventListener('click', convertToVector);
 
-    const fileInput = document.getElementById('fileInput');
-    const status = document.getElementById('status');
-    const downloadLink = document.getElementById('downloadLink');
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
 
-    if (fileInput.files.length === 0) {
-        status.textContent = 'Please upload an image.';
-        return;
-    }
+  reader.onload = function(e) {
+    const img = document.createElement('img');
+    img.src = e.target.result;
+    img.style.maxWidth = '100%';
+    document.getElementById('preview').innerHTML = '';
+    document.getElementById('preview').appendChild(img);
+  };
 
-    const file = fileInput.files[0];
-    const reader = new FileReader();
+  reader.readAsDataURL(file);
+}
 
-    reader.onload = async function (event) {
-        const image = new Image();
-        image.src = event.target.result;
+function convertToVector() {
+  const svgContent = generateSVG(); // Mock SVG content for now
+  const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
 
-        image.onload = async function () {
-            try {
+  const downloadLink = document.getElementById('downloadLink');
+  downloadLink.href = url;
+  downloadLink.style.display = 'block';
+}
 
-                const svg = await Potrace.trace(image.src, { optTolerance: 1});
-
-                const blob = new Blob([svg], { type: 'image/svg+xml' });
-                const url = URL.createObjectURL(blob);
-
-                downloadLink.href = url;
-                downloadLink.style.display = 'block';
-                status.textContent = 'Your image has been vectorized! Click the link below to download the vector.';
-            } catch (err) {
-                console.error('Error:', err);
-                status.textContent = 'Failed to vectorize image.'
-            }
-        };
-    };
-
-    reader.readAsDataURL(file);
-})
+// Mock function to simulate SVG generation
+function generateSVG() {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+    </svg>
+  `;
+}
